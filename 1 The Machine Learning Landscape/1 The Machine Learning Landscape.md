@@ -7,7 +7,7 @@
 
 **An Example: spam filter**
 
-![spam filter.jpg](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/spam_filter.jpg)
+![spam filter.jpg](1%20The%20Machine%20Learning%20Landscape/spam_filter.jpg)
 
 Learn to flag spam given examples of spam emails and examples of regular emails.
 
@@ -22,17 +22,17 @@ Learn to flag spam given examples of spam emails and examples of regular emails.
 ## **Why Use Machine Learning?**
 
 - Use traditional programming techniques → A long list of complex rules—pretty hard to maintain
-    
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled.png)
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled.png)
     
 - Use Machine Learning techniques → A spam filter automatically ****learns which words and phrases are good predictors of spam by detecting unusually frequent patterns of words in the spam examples compared to the ham examples.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%201.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%201.png)
 
 - If spammers notice that all their emails containing “4U” are blocked, theymight start writing “For U” instead. A spam filter using traditional programming techniques would need to be updated to flag “For U” emails.
 - A spam filter based on Machine Learning techniques automatically notices that “For U” has become unusually frequent in spam flagged by users.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%202.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%202.png)
 
 **Machine Learning is great for:**
 
@@ -41,7 +41,7 @@ Learn to flag spam given examples of spam emails and examples of regular emails.
 - Fluctuating environments: a Machine Learning system can adapt to new data.
 - Getting insights about complex problems and large amounts of data.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%203.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%203.png)
 
 ## ****Formulization of the Example****
 
@@ -60,7 +60,7 @@ Training to find a hypothesis...…
     - Formula to be used for prediction
     - It's possible that f and h are not the same function
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%204.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%204.png)
 
 The two core components of the learning problem:
 
@@ -82,8 +82,8 @@ $h∈\mathcal{H}$
         - Simplicity
     - • Easy to work with
 - An example hypothesis space:
-    
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%205.png)
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%205.png)
     
     - All linear hyperplanes for classification→How to find the best?
     - All hyperplanes in two dimensions are a hypothetical space. The learning algorithm finds the best hyperplane from this hypothesis space to maximize the divisibility of the data.
@@ -91,13 +91,13 @@ $h∈\mathcal{H}$
 ### ****Loss Funcion****
 
 - **Loss function:** $l:y\times y\rightarrow \mathbb{R}_+$ measures the difference between $h(x)$ and $y$
-    
+  
     $$
     l(y,h(x))=(y-h(x))^2 \text{(Regressison)}\\l(y,h(x))=1[y \neq h(x)] \text{(Classification)}
     $$
     
 - The canonical training procedure of machine learning:
-    
+  
     Error of training:
     
     $$
@@ -115,7 +115,7 @@ $h∈\mathcal{H}$
 
 ### **Supervised/Unsupervised Learning**
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%206.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%206.png)
 
 **Supervised learning**
 
@@ -123,15 +123,15 @@ In *supervised learning*, the training data you feed to the algorithm includes t
 
 solutions, called *labels.*
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%207.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%207.png)
 
 - ***classification***
-    
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%208.png)
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%208.png)
     
 - ***regression***
-    
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%209.png)
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%209.png)
     
     Here are some of the most important supervised learning algorithms:
     
@@ -146,19 +146,18 @@ solutions, called *labels.*
 
 In *unsupervised learning*, as you might guess, the training data is unlabeled. The system tries to learn without a teacher.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2010.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2010.png)
 
 - ***clustering***
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2011.png)
     
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2011.png)
-    
-
 - ***embedding***
-    
-    ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2012.png)
+  
+    ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2012.png)
     
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2013.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2013.png)
 
 Here are some of the most important unsupervised learning algorithms:
 
@@ -184,19 +183,19 @@ Some algorithms can deal with partially labeled training data, usually a lot of 
 
 An Example: Google Photo
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2014.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2014.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2015.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2015.png)
 
 **Reinforcement Learning**
 
 *Reinforcement Learning* is a very different beast. The learning system, called an *agent* in this context, can observe the environment, select and perform actions, and get *rewards* in return.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2016.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2016.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2017.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2017.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2018.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2018.png)
 
 ## **Main Challenges of Machine Learning**
 
@@ -207,7 +206,7 @@ An Example: Google Photo
 
 Microsoft researchers have shown that, given **enough data**, radically different machine learning algorithms (including fairly simple ones) can perform almost exactly the **same** job on the complex problem of natural language ambiguity reduction.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2019.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2019.png)
 
 As the authors put it: “these results suggest that we may want to reconsider the tradeoff between spending time and money on **algorithm development** versus spending it
 on **corpus development**.”
@@ -218,11 +217,11 @@ Small- and mediumsized datasets are still very common, and it is not always easy
 
 For example, when the GDP per capita-Life satisfaction line is fitted, when the data of some countries is missing and when the complete data is added, the line fitted is different.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2020.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2020.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2021.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2021.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2022.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2022.png)
 
 - By using a nonrepresentative training set, we trained a model that is unlikely to make
 accurate predictions, especially for very poor and very rich countries.
@@ -254,7 +253,7 @@ A critical part of the success of a Machine Learning project is coming up with a
 
 The below figure shows an example of a high-degree polynomial life satisfaction model that strongly overfits the training data. Even though it performs much better on the training data than the simple linear model, we cannot trust its predictions.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2023.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2023.png)
 
 Overfitting happens when the model is too complex relative to **the amount and noisiness** of the training data. The possible solutions are:
 
@@ -273,7 +272,7 @@ For example, the linear model we defined earlier has two parameters, $θ_0$ and 
 
 In the same example of GDP above, we used the data of some missing countries for fitting, but regularization was added this time to get the blue solid line.
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2024.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2024.png)
 
 We can see that regularization forced the model to have a smaller slope, which fits a bit less the training data that the model was trained on, but actually allows it to generalize better to new examples.
 
@@ -301,7 +300,7 @@ The only way to know how well a model will generalize to new cases is to actuall
 
 A better option is to split your data into two sets: the *training set* and the *test set*. 
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2025.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2025.png)
 
 - Train the parameters $\theta$ of each model from the **training data**.
 - Evaluate on the **test data**, and pick the best performer.
@@ -310,7 +309,7 @@ A better option is to split your data into two sets: the *training set* and the 
     - **The learning algorithms should never ever have access to test data!**
 - Problems:
     - Over-estimates the test performance ("lucky"model)
-        
+      
         This is the most common but wrong practice of machine learning.
         
 
@@ -318,7 +317,7 @@ A better option is to split your data into two sets: the *training set* and the 
 
 **Reserve some data for validation**
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2026.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2026.png)
 
 - Train the parameters $\theta$ of each model from the **training data**.
 - Evaluate on the **validation data**, and pick the best performer.
@@ -329,7 +328,7 @@ A better option is to split your data into two sets: the *training set* and the 
     - **The learning algorithms should never ever have access to test data!**
 - **Programming**
     - **Random sampling**
-        
+      
         Scikit-Learn provides a few functions to split datasets into multiple subsets in various ways. The simplest function is `train_test_split`.[[document]](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html)
         `sklearn.model_selection.**train_test_split**(**arrays*, *test_size=None*, *train_size=None*, *random_state=None*, *shuffle=True*, *stratify=None*)`
         
@@ -378,10 +377,10 @@ A better option is to split your data into two sets: the *training set* and the 
         ```
         
     - **Stratified sampling**
-        
+      
         The following code uses the `pd.cut()` function to create an income category attribute with 5 categories (labeled from 1 to 5): category 1 ranges from 0 to 1.5 (i.e., less than $15,000), category 2 from1.5 to 3, and so on:
         
-        ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2027.png)
+        ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2027.png)
         
         ```python
         housing["income_cat"] = pd.cut(housing["median_income"],
@@ -390,7 +389,7 @@ A better option is to split your data into two sets: the *training set* and the 
         housing["income_cat"].hist()
         ```
         
-        ![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2028.png)
+        ![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2028.png)
         
         Now you are ready to do stratified sampling based on the income category. For this
         you can use Scikit-Learn’s `StratifiedShuffleSplit` class:
@@ -433,9 +432,9 @@ What if we get an *unfortunate* split?
 - For $i=1,...,K$, train $h^{(i)}$ using all data but the $i$-th fold
 - Cross-validation error by averaging all validation error $\hat\epsilon_{D^{(i)}}(h^{(i)})$
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2029.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2029.png)
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2030.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2030.png)
 
 - In practice,we always choose K as 5 or 10.
 - If we choose $K$ as $N$ (the size of  $\mathcal{D}$), we get Leave-One-Out Cross
@@ -450,7 +449,7 @@ optimization problem
 - Denote the hyperparameter space of algorithm ${A}^{(i)}$as ${\Lambda}^{(i)}$
 - Denote the error of $\mathcal{A}^{(i)}$ as $\mathcal{L}(A_\lambda^{(i)},D_{\rm train},D_{\rm valid})$ using $\lambda \in \Lambda^{(i)}$ trained on $D_{\rm train}$ and evaluated on $D_{\rm valid}$
 - The problem is to find optimal algorithm and its hyperparameter:
-    
+  
     $$
     A_{\lambda^*}^*=\underset{A^{(i)} \in \mathcal{A}, \lambda \in \boldsymbol{\Lambda}^{(i)}}{\operatorname{argmin}} \mathcal{L}\left(A_\lambda^{(i)}, D_{\text {train }}, D_{\text {valid }}\right)
     $$
@@ -462,4 +461,4 @@ optimization problem
 
 ### **How to do it efficiency?**
 
-![Untitled](1%20The%20Machine%20Learning%20Landscape%208b8b1ee4448446e495f7313bffedb0e6/Untitled%2031.png)
+![Untitled](1%20The%20Machine%20Learning%20Landscape/Untitled%2031.png)
