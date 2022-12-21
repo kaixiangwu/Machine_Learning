@@ -13,6 +13,10 @@ Each chapter of Machine Learning is stored in a folder whose name starts with a 
 
 
 
+I'm sorry to say that some of the formulas in the notes cannot be displayed online on the github page. Adding the [GitHub with MathJax](https://github.com/orsharir/github-mathjax) plugin to your browser may solve some of the problems but not all. So it is recommended that you download them locally and use a markdown viewer such as Typora to see them.
+
+
+
 Some reference books
 
 | Author                                              | Course Name                                                  |
@@ -20,4 +24,4 @@ Some reference books
 | Aurélien Géron                                      | Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems (2nd Edition) |
 | Mehryar Mohri, Afshin Rostamizadeh, Ameet Talwalkar | Foundations of Machine Learning (2nd Edition)                |
 | Shai Shalev-Shwartz and Shai Ben-David              | Understanding Machine Learning From Theory to Algorithms     |
-| 周志华 (南京大学)                                   | 机器学习                                                     |
+| 周志华                                              | 机器学习                                                     |
