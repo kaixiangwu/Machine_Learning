@@ -1,4 +1,4 @@
-# 4. Linear Model (1)
+# 4. Linear Model
 
 # Linear Regression
 
@@ -325,3 +325,505 @@ Stochastic Gradient Descent: at each step, instead of computing the gradients ba
 Comparison of algorithms for Linear Regression:
 
 ![Untitled](4%20Linear%20Model/Untitled%2010.png)
+
+# Nonlinearization: **Polynomial Regression**
+
+**An Example: Electricity Prediction**
+
+- Problem: Predict the peak power consumption in **all months**.
+- Exploratory Data Analysis(EDA): Peak demand vs.temperature plot
+  
+    ![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/image-20221214212320372.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/image-20221214212320372.png)
+    
+- Can we use linear regression again?
+
+First, generate some nonlinear data, based on a simple *quadratic equation*
+
+```python
+m = 100
+X = 6 * np.random.rand(m, 1) - 3
+y = 0.5 * X**2 + X + 2 + np.random.randn(m, 1)
+```
+
+let’s use Scikit-Learn’s `PolynomialFeatures` class to transform our training data, adding the square (2nd-degree polynomial) of each feature in the training set as new features:
+
+```python
+>>> from sklearn.preprocessing import PolynomialFeatures
+>>> poly_features = PolynomialFeatures(degree=2, include_bias=False)
+>>> X_poly = poly_features.fit_transform(X)
+>>> X[0]
+array([-0.75275929])
+>>> X_poly[0]
+array([-0.75275929, 0.56664654])
+
+>>> lin_reg = LinearRegression()
+>>> lin_reg.fit(X_poly, y)
+>>> lin_reg.intercept_, lin_reg.coef_
+(array([1.78134581]), array([[0.93366893, 0.56456263]]))
+```
+
+![Untitled](4%20Linear%20Model/Untitled%2011.png)
+
+Not bad: the model estimates $\hat y = 0.56x_1^2+0.93x_1+1.78$ when in fact the original
+function was $\hat y = 0.5x_1^2+1.0x_1+2.0+\text{Guassian noise}$
+
+## Basis Function
+
+- Feature map:
+  
+    $$
+    \begin{gathered}\boldsymbol{x}=\left(x_1, \ldots, x_d\right) \in \mathcal{X} \stackrel{\Phi}{\longrightarrow} \boldsymbol{z}=\left(z_1, \ldots, z_{\tilde{d}}\right) \in \mathcal{Z} \\\boldsymbol{z}=\Phi(\boldsymbol{x})\end{gathered}
+    $$
+    
+- Each $z_j=\phi_j(x)$ depends on some **nonlinear** transform $\phi_j(x)$.
+- $\{\phi_j(x)\}_{1\leq j\leq d}$ is called **basis functions**.
+- Polynomial basis functions
+    - 1-D vector: $\boldsymbol{z'}=(1,x_1,x_1^2,x_1^3)$
+      
+        ![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4c.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4c.png)
+        
+    - 2-D vector: $\boldsymbol{z'}=(1,x_2,x_1x_2,x_1^2)$
+- Radial basis functions (RBF)
+  
+    $$
+    \phi_j(\boldsymbol{x})=\left\{\exp \left(-\frac{\left\|\boldsymbol{x}-\boldsymbol{\mu}_j\right\|_2^2}{2 \sigma^2}\right): j=1, \ldots, \tilde{d}\right\} 
+    $$
+    
+- The final hypothesis is **linear** in the feature space $\mathcal{Z}$.
+- The final hypothesis is nonlinear in the input space $\mathcal{X}$
+  
+    $$
+    h(\boldsymbol{x})=\widetilde{\boldsymbol{\theta}} \cdot \boldsymbol{z}=\widetilde{\boldsymbol{\theta}} \cdot \Phi(\boldsymbol{x})=\sum_{j=1}^{\tilde{d}} \widetilde{\theta}_j \phi_j(\boldsymbol{x})
+    $$
+    
+
+![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/image-20221214221245638.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/image-20221214221245638.png)
+
+## **Learning Curves**
+
+The fighure below applies a 300-degree polynomial model to the preceding training data, and compares the result with a pure linear model and a quadratic model (2nd-degree polynomial). Notice how the 300-degree polynomial model wiggles around to get as close as possible to the training instances.
+
+![Untitled](4%20Linear%20Model/Untitled%2012.png)
+
+- The high-degree Polynomial Regression model is severely overfitting the
+training data.
+- The linear model is underfitting the training data.
+
+**How to judge the model is overfitting or underfitting the data?**
+
+- **cross-validation**
+    - If a model performs well on the training data but generalizes poorly according to the cross-validation metrics, then your model is overfitting.
+    - If it performs poorly on both, then it is underfitting.
+- ***learning curves***
+    - To generate the plots, simply train the model several times on different sized subsets of the training set.
+    
+    ```python
+    from sklearn.metrics import mean_squared_error
+    from sklearn.model_selection import train_test_split
+    
+    def plot_learning_curves(model, X, y):
+        X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
+        train_errors, val_errors = [], []
+        for m in range(1, len(X_train)):
+            model.fit(X_train[:m], y_train[:m])
+            y_train_predict = model.predict(X_train[:m])
+            y_val_predict = model.predict(X_val)
+            train_errors.append(mean_squared_error(y_train[:m], y_train_predict))
+            val_errors.append(mean_squared_error(y_val, y_val_predict))
+        plt.plot(np.sqrt(train_errors), "r-+", linewidth=2, label="train")
+        plt.plot(np.sqrt(val_errors), "b-", linewidth=3, label="val")
+        plt.legend(labels=['train','val'])
+        plt.xlabel('Train set size')
+        plt.ylabel('RMSE')
+    ```
+    
+    ```python
+    lin_reg = LinearRegression()
+    plot_learning_curves(lin_reg, X, y)
+    ```
+    
+    ![Untitled](4%20Linear%20Model/Untitled%2013.png)
+    
+    **Train:**
+    
+    - When there are just one or two instances in the training set, the model can fit them perfectly, which is why the curve starts at zero.
+    - But as new instances are added to the training set, it becomes impossible for the model to fit the training data perectly, both because the data is noisy and because it is not linear at all.
+    - So the error on the training data goes up until it reaches a plateau, at which point adding new instances to the training set doesn’t make the average error much better or worse.
+    
+    **Val:**
+    
+    - When the model is trained on very few training instances, it is incapable of generalizing properly, which is why the validation error is initially quite big.
+    - Then as the model is shown more training examples, it learns and thus the validation error slowly goes down.
+    - However, once again a straight line cannot do a good job modeling the data, so the error ends up at a plateau, very close to the other curve.
+    
+    **These learning curves are typical of an underfitting model. Both curves have reached a plateau; they are close and fairly high.**
+    
+    **If your model is underfitting the training data, adding more training examples will not help. You need to use a more complex model or come up with better features.**
+    
+    Now let’s look at the learning curves of a 10th-degree polynomial model on the same data.
+    
+    ```python
+    from sklearn.pipeline import Pipeline
+    polynomial_regression = Pipeline([
+     ("poly_features", PolynomialFeatures(degree=10, include_bias=False)),
+     ("lin_reg", LinearRegression()),
+     ])
+    plot_learning_curves(polynomial_regression, X, y)
+    ```
+    
+    - The error on the training data is much lower than with the Linear Regression model.
+    - There is a gap between the curves.
+      
+        This means that the model performs significantly better on the training data than on the validation data, which is the hall mark of an overfitting model.
+        
+        However, if you used a much larger training set, the two curves would continue to get closer.
+        
+    
+    **One way to improve an overfitting model is to feed it more training data until the validation error reaches the training error.**
+    
+
+## Regularization
+
+Overfitting
+
+- Higher-order polynomial fits data better.
+- But may fit noise!
+- Also may cause very large coefficients.
+
+![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4c.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4c.png)
+
+![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4d.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.4d.png)
+
+![https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.5.png](https://typora-1309501826.cos.ap-nanjing.myqcloud.com//%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/Figure1.5.png)
+
+[http://gaolei786.github.io/statistics/prml1.html](http://gaolei786.github.io/statistics/prml1.html)
+
+- How to control the model complexity?
+  
+    Solution:Control norm of $\theta$ !
+    
+
+A good way to reduce overfitting is to regularize the model (i.e., to constrain it): the fewer degrees of freedom it has, the harder it will be for it to overfit the data. 
+
+For example, a simple way to regularize a polynomial model is to reduce the number of polynomial degrees.
+
+## L2-Regularization
+
+The L2-regularized linear regression **(ridge regression)** imposes L2-norm regularization trading off with a hyperparameter $\lambda > 0$, This forces the learning algorithm to not only fit the data but also keep the model weights as small as possible
+
+$$
+\widehat{\boldsymbol{w}}=\underset{\mathbf{w} \in \mathbb{R}^d}{\arg \min } \sum_{i=1}^n\left(\boldsymbol{w}^T \boldsymbol{x}_i-y_i\right)^2+\lambda\|\boldsymbol{w}\|_2^2
+$$
+
+- The hyperparameter $\lambda$ controls how much you want to regularize the model.
+    - If $\lambda=0$ then Ridge Regression is just Linear Regression.
+    - If $\lambda$ **is very large, then all weights end up very close to zero and the result is a flat line going through the data’s mean.
+- Compute the gradient and set it to zero
+  
+    $$
+     \begin{aligned} \nabla_w \hat{\epsilon}(\boldsymbol{w}) & =2 \boldsymbol{X}^T(\boldsymbol{X} \boldsymbol{w}-\boldsymbol{y})+2 \lambda \boldsymbol{w}=0 \\ & \Rightarrow\left(\boldsymbol{X}^T \boldsymbol{X}+\lambda I\right) \boldsymbol{w}=\boldsymbol{X}^T \boldsymbol{y} \\ & \Rightarrow \boldsymbol{w}=\left(\boldsymbol{X}^T \boldsymbol{X}+\lambda I\right)^{-1} \boldsymbol{X}^T \boldsymbol{y} \end{aligned}
+    $$
+    
+    Here is how to perform Ridge Regression with Scikit-Learn using a closed-form solution.
+    
+    ```python
+    >>> from sklearn.linear_model import Ridge
+    >>> ridge_reg = Ridge(alpha=1, solver="cholesky")
+    >>> ridge_reg.fit(X, y)
+    >>> ridge_reg.predict([[1.5]])
+    array([[1.55071465]])
+    ```
+    
+- Or using Gradient Descent (GD):
+  
+    $$
+    -w^{t+1} \leftarrow w^t-\left.\eta \nabla_w \hat{\epsilon}(w)\right|_{w=w^t}
+    $$
+    
+    ```python
+    
+    >>> sgd_reg = SGDRegressor(penalty="l2")
+    >>> sgd_reg.fit(X, y.ravel())
+    >>> sgd_reg.predict([[1.5]])
+    array([1.47012588])
+    ```
+    
+
+The figure below shows several Ridge models trained on some linear data using different *α* value. On the left, plain Ridge models are used, leading to linear predictions.
+
+![Untitled](4%20Linear%20Model/Untitled%2014.png)
+
+- On the left, plain Ridge models are used, leading to linear predictions.
+- On the right, the data is first expanded using `PolynomialFeatures(degree=10)`, then it is
+scaled using a `StandardScaler`, and the Ridge models are applied to the resulting features.
+
+## L1-Regularization
+
+The L1-regularized linear regression **(lasso regression)** imposes L1-norm regularization trading off with a hyperparameter $\lambda \geq 0$: 
+
+$$
+ \widehat{\boldsymbol{w}}=\underset{\boldsymbol{w} \in \mathbb{R}^d}{\arg \min } \sum_{i=1}^n\left(\boldsymbol{w}^T \boldsymbol{x}_i-y_i\right)^2+\lambda\|\boldsymbol{w}\|_1 
+$$
+
+![Untitled](4%20Linear%20Model/Untitled%2015.png)
+
+An important characteristic of Lasso Regression is that it tends to completely eliminate the weights of the least important features (i.e., set them to zero). 
+
+For example, the dashed line in the right plot on (with *α* = 10-7) looks quadratic, almost linear: all the weights for the high-degree polynomial features are equal to zero. 
+
+In other words, Lasso Regression automatically performs feature selection and outputs a
+
+*sparse model* (i.e., with few nonzero feature weights).
+
+The Lasso cost function is not differentiable at $*w_i = 0*$ (for *i* = 1, 2, ⋯, *n*), but Gradient Descent still works fine if you use a *subgradient vector* $g$ ****15 instead when any $*w_i = 0*$.
+
+$$
+g(\boldsymbol{w}, J)=\nabla_{\boldsymbol{w}} \operatorname{MSE}(\boldsymbol{w})+\alpha\left(\begin{array}{c}\operatorname{sign}\left(w_1\right) \\\operatorname{sign}\left(w_2\right) \\\vdots \\\operatorname{sign}\left(w_n\right)\end{array}\right) \\\text { where }\operatorname{sign}\left(w_i\right)=\left\{\begin{array}{cc}-1 & \text { if } w_i<0 \\0 & \text { if } w_i=0 \\+1 & \text { if } w_i>0\end{array}\right.
+$$
+
+Here is a small Scikit-Learn example using the Lasso class. Note that you could instead use an `SGDRegressor(penalty="l1")`.
+
+```python
+>>> from sklearn.linear_model import Lasso
+>>> lasso_reg = Lasso(alpha=0.1)
+>>> lasso_reg.fit(X, y)
+>>> lasso_reg.predict([[1.5]])
+array([1.53788174])
+```
+
+> It is almost always preferable to have at least a little bit of regularization, so generally you should avoid plain Linear Regression.
+Ridge is a good default, but if you suspect that only a few features are actually useful, you should prefer Lasso or Elastic Net since they tend to reduce the useless features’ weights down to zero as we have discussed.
+> 
+
+# Linear Classification
+
+## Logistic Regression
+
+- How to design loss function over linear hypothesis for classification?
+- Naive idea: $\min\limits_{\boldsymbol{w}} \sum\limits_{i=1}^n\left(h_{\boldsymbol{w}}\left(\boldsymbol{x}_i\right)-y_i\right)^2+\lambda\Omega(\boldsymbol{w})$ where $y_i \in \{0,1\}$
+    - Discretize the continuous output $h_{\boldsymbol{w}}$to be $\{0,1\}$
+- During test part
+
+![Untitled](4%20Linear%20Model/Untitled%2016.png)
+
+- It does not make sense for $h_{\boldsymbol{w}}$ to take values larger than 1 or smaller than 0 when we know that $y\in\{0,1\}.$
+- We use accuracy (01-loss)when validating the classification model:
+  
+    $$
+    l(y,h(x))=1[y \neq h(x)]
+    $$
+    
+    $h(\boldsymbol{x}) \in y$ is not a proper assumption this time.  
+    
+
+### Logistic Regression:Link Function
+
+Instead of outputting the result directly like the Linear Regression model does, it outputs the *logistic* of this result.
+
+$$
+\hat p=h_{\boldsymbol{w}}(\boldsymbol{x})=\sigma(\boldsymbol{x}^T\boldsymbol{w})
+$$
+
+The logistic—noted *σ*(·)—is a *sigmoid function* (i.e., *S*-shaped) that outputs a number between 0 and 1.
+
+$$
+\sigma(t)=\dfrac{1}{1+e^{-t}}
+$$
+
+![Untitled](4%20Linear%20Model/Untitled%2017.png)
+
+- Sigmoid maps $\mathbb{R}$ to $[0,1]$.
+- $t \rightarrow +\infty,\sigma(t) \rightarrow 1$
+- Set $\sigma(h(\boldsymbol{x}))=p(y=1|x)$ as the probability to label $\boldsymbol{x}$ as $y=1$.
+
+### Logistic Regression:Loss Function
+
+- How about using squared loss now as $h(\boldsymbol{x}) \in [0,1]$ and $y\in\{0,1\}$？
+  
+    $$
+    l(h(\boldsymbol{x}),y)= \sum\limits_{i=1}^n\left(\sigma\left(\boldsymbol{w}^T\boldsymbol{x}_i\right)-y_i\right)^2+\lambda\Omega(\boldsymbol{w})
+    $$
+    
+    ![Untitled](4%20Linear%20Model/Untitled%2018.png)
+    
+- Tries to match continuous probability with discrete 0/1 labels.
+    - Non-convex
+    - Small loss when prediction is overly far in wrong side
+    - What is wrong?
+
+### Logistic Regression:Statistical View
+
+- Under some proper distributional assumption:
+    - The MLE of a parametric model leads to a particular loss function.
+- Assume the conditional: $P(y=1 \mid \boldsymbol{x}, \boldsymbol{w})=\sigma\left(\boldsymbol{w}^T \boldsymbol{x}\right)=\frac{1}{1+\exp \left(-\boldsymbol{w}^T x\right)}$
+- Maximum Likelihood Estimation(MLE):
+  
+    $$
+    \max _{\boldsymbol{w}} \prod_{i=1}^n \prod_{c=0}^1 P\left(y_i=c \mid \boldsymbol{x}_i, \boldsymbol{w}\right)^{\mathbf{1}\left\{y_i=c\right\}}
+    $$
+    
+- Log-likelihood:
+  
+    $$
+     -\frac{1}{n} \sum_{i=1}^n \sum_{c=0}^1\left\{\mathbf{1}\left\{y_i=c\right\} \cdot \log P\left(y_i=c \mid \boldsymbol{x}_i\right)\right\} 
+    $$
+    
+- Derive the maximum log-likelihood estimation by plugging above in:
+  
+    $$
+    \begin{aligned}& -\frac{1}{n} \sum_{i=1}^n \sum_{c=0}^1\left\{\mathbf{1}\left\{y_i=c\right\} \cdot \log P\left(y_i=c \mid \boldsymbol{x}_i\right)\right\} \\= & -\frac{1}{n} \sum_{i=1}^n\left\{y_i \log P\left(y_i=1 \mid \boldsymbol{x}_i\right)+\left(1-y_i\right) \log P\left(y_i=0 \mid \boldsymbol{x}_i\right)\right\} \\= & -\frac{1}{n} \sum_{i=1}^n\{\underbrace{y_i \log \sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right.}_{y_i})+\underbrace{\left(1-y_i\right) \log \left[1-\sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right.\right.}_{y_i})]\}\end{aligned}
+    $$
+    
+
+### Logistic Regression:Cross-Entropy Loss
+
+$$
+\ell\left(h\left(\boldsymbol{x}_i\right), y_i\right)= \begin{cases}-\log \left[\sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right)\right] & y_i=1 \\ -\log \left[1-\sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right)\right] & y_i=0\end{cases}
+$$
+
+- Check! If $y_i=1$
+    - $\sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right) \rightarrow 0$, loss goes to $\infty$
+    - $\sigma\left(\boldsymbol{w}^T \boldsymbol{x}_i\right) \rightarrow 0$, loss goes to 0
+    
+    ![Untitled](4%20Linear%20Model/Untitled%2019.png)
+    
+- *Logistic Regression cost function (log loss)*
+  
+    $$
+    \hat{\epsilon}(w)=-\sum_{i=1}^n\left\{y_i \log \sigma\left(h_{\boldsymbol{w}}(\boldsymbol{x})\right)+\left(1-y_i\right) \log \left[1-\sigma\left(h_{\boldsymbol{w}}(\boldsymbol{x})\right)\right]\right\}
+    $$
+    
+
+Logistic Regression:Regularization
+
+- A classification dataset is said to be linearly separable if there exists a hyperplane that separates the two classes.
+    - Appears a lot in non-linear setting.
+- If data is linearly separable after using nonlinear features, LR requires regularization.
+- Prevent weights from diverging on linearly separable data
+  
+    $$
+    \hat{\epsilon}(w)=-\sum_{i=1}^n\left\{y_i \log \sigma\left(h_{\boldsymbol{w}}(\boldsymbol{x})\right)+\left(1-y_i\right) \log \left[1-\sigma\left(h_{\boldsymbol{w}}(\boldsymbol{x})\right)\right]\right\}+\lambda \sum_{j=1}^a w_j^2
+    $$
+    
+- Similar with regression:L1,L2…
+  
+    ![Untitled](4%20Linear%20Model/Untitled%2020.png)
+    
+
+![Untitled](4%20Linear%20Model/Untitled%2021.png)
+
+- How to solve this problem?
+    - The bad news is that there is no known closed-form equation to compute the value of **w** that minimizes this cost function (there is no equivalent of the Normal Equation). But the good news is that this cost function is convex, so Gradient Descent (or any other optimization algorithm) is guaranteed to find the global minimum (if the learning rate is not too large and you wait long enough).
+
+### **Decision Boundaries**
+
+Let’s try to build a classifier to detect the Iris-Virginica type based only on the petal width feature. First let’s load the data:
+
+```python
+>>> from sklearn import datasets
+>>> iris = datasets.load_iris()
+>>> list(iris.keys())
+['data', 'target', 'target_names', 'DESCR', 'feature_names', 'filename']
+>>> X = iris["data"][:, 3:] # petal width
+>>> y = (iris["target"] == 2).astype(np.int) # 1 if Iris-Virginica, else 0
+```
+
+Now let’s train a Logistic Regression model:
+
+```python
+from sklearn.linear_model import LogisticRegression
+log_reg = LogisticRegression()
+log_reg.fit(X, y)
+```
+
+Let’s look at the model’s estimated probabilities for flowers with petal widths varying
+from 0 to 3 cm:
+
+```python
+X_new = np.linspace(0, 3, 1000).reshape(-1, 1)
+y_proba = log_reg.predict_proba(X_new)
+plt.plot(X_new, y_proba[:, 1], "g-", label="Iris-Virginica")
+plt.plot(X_new, y_proba[:, 0], "b--", label="Not Iris-Virginica")
+```
+
+![Untitled](4%20Linear%20Model/Untitled%2022.png)
+
+Above about 2 cm the classifier is highly confident that the flower is an IrisVirginica (it outputs a high probability to that class), while below 1 cm it is highly confident that it is not an Iris-Virginica (high probability for the “Not Iris-Virginica”class). In between these extremes, the classifier is unsure.
+
+## Softmax Regression
+
+The Logistic Regression model can be generalized to support multiple classes directly, without having to train and combine multiple binary classifiers. This is called *Softmax Regression*, or *Multinomial Logistic Regression*.
+
+### Softmax Regression:Softmax Function
+
+$$
+p(y=c \mid \boldsymbol{x} ; \boldsymbol{W})=\frac{\exp \left(\boldsymbol{w}_c^T \boldsymbol{x}\right)}{\sum_{r=1}^C \exp \left(\boldsymbol{w}_r^T \boldsymbol{x}\right)}
+$$
+
+- $C$ is the number of classes.
+- $\boldsymbol{w}_c^T \boldsymbol{x}$ is a vector containing the scores of each class for the instance **x**.
+- $p$ is the estimated probability that the instance **x** belongs to class C **given the scores of each class for that instance.
+
+### Softmax Regression: Statistical View
+
+- Categorical distribution assumption
+    - Probability mass function:
+      
+        $$
+        P(y=c \mid \boldsymbol{q})=q_c, \sum_{c=1}^C q_c=1
+        $$
+    
+- Probability of flipping $m$ dices with result $\{y_1,...,y_m\}$
+  
+    $$
+    \prod_{i=1}^m \prod_{c=1}^c P\left(y_i=c \mid q_{i c}\right)^{1\left\{y_i=c\right\}}
+    $$
+    
+- Softmax regression assumes that given parameter $\boldsymbol{W}$:
+  
+    $$
+    q_{i c}=P\left(y_i=c \mid x_{i j} W\right)
+    $$
+    
+- The likelihood of $\boldsymbol{W}$ given all samples $\mathcal{D}=\left\{\left(\boldsymbol{x}i, y_i\right)\right\}{i=1}^m$
+  
+    $$
+    \mathcal{L}(\boldsymbol{W} ; \mathcal{D})=\prod_{i=1}^m \prod_{c=1}^c P\left(y_i=c \mid x_i ; \boldsymbol{W}\right)^{\mathbf{1}\left\{y_i=c\right\}}
+    $$
+    
+- Maximum likelihood estimation:
+
+$$
+\mathcal{L}(\boldsymbol{W} ; \mathcal{D})=\max _{\boldsymbol{w}_1, \ldots, \boldsymbol{w}_{\mathcal{C}}} \prod_{i=1}^m \prod_{c=1}^c P\left(y_i=c \mid x_i ; \boldsymbol{W}\right)^{\mathbf{1}\left\{y_i=c\right\}}
+$$
+
+- We use minimum negative log-likelihood estimation:
+  
+    $$
+    \begin{aligned}& \mathcal{L L}(\boldsymbol{W} ; \mathcal{D})=\min _{\boldsymbol{w}_1, \ldots, \boldsymbol{w}_C}-\frac{1}{m} \sum_{i=1}^m \sum_{c=1}^c\left\{\mathbf{1}\left\{y_i=c\right\} \cdot \log P\left(y_i=c \mid x_i ; \boldsymbol{W}\right)\right\} \\& =\min _{w_1, \ldots, w_C}-\frac{1}{m} \sum_{i=1}^m \sum_{c=1}^c\left\{\mathbf{1}\left\{y_i=c\right\} \cdot \log \frac{\exp \left(\boldsymbol{w}_c^T \boldsymbol{x}_i+\boldsymbol{b}_c\right)}{\sum_{r=1}^C \exp \left(\boldsymbol{w}_r^T \boldsymbol{x}_i+\boldsymbol{b}_r\right)}\right\}\end{aligned}
+    $$
+    
+
+### Softmax Regression:Cross-Entropy Loss
+
+$$
+-\frac{1}{m} \sum_{i=1}^m \sum_{c=1}^c\left\{\mathbf{1}\left\{y_i=c\right\} \cdot \log \frac{\exp \left(\boldsymbol{w}_c^T \boldsymbol{x}_i+\boldsymbol{b}_c\right)}{\sum_{r=1}^C \exp \left(\boldsymbol{w}_r^T \boldsymbol{x}_i+\boldsymbol{b}_r\right)}\right\}
+$$
+
+Let’s use Softmax Regression to classify the iris flowers into all three classes. ScikitLearn’s `LogisticRegression` uses one-versus-all by default when you train it on more than two classes, but you can set the `multi_class` hyperparameter to "`multinomial`" to switch it to Softmax Regression instead.You must also specify a solver that supports Softmax Regression, such as the "`lbfgs`" solver (see Scikit-Learn’s documentation for more details). It also applies ℓ2 regularization by default, which you can control using the hyperparameter C.
+
+```python
+X = iris["data"][:, (2, 3)] # petal length, petal width
+y = iris["target"]
+softmax_reg = LogisticRegression(multi_class="multinomial",solver="lbfgs", C=10)
+softmax_reg.fit(X, y)
+```
+
+```python
+>>> softmax_reg.predict([[5, 2]])
+array([2])
+>>> softmax_reg.predict_proba([[5, 2]])
+array([[6.38014896e-07, 5.74929995e-02, 9.42506362e-01]])
+```
+
+![Untitled](4%20Linear%20Model/Untitled%2023.png)
