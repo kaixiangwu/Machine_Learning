@@ -1,11 +1,14 @@
-# Machine-Learning
+# 🤖Machine Learning
+
 Here are some notes and codes in the process of learning machine learning. You can read the notes online by clicking the link in the notes directory below, or you can download them in markdown format from the GitHub repository.
 
 这里是一些学习机器学习过程中的笔记和代码。你可以通过点击下面笔记目录中的链接在线阅读这些笔记，也可以从GitHub仓库中下载markdown格式的笔记。
 
----
 
-Each chapter of Machine Learning is stored in a folder whose name starts with a number. In these folders: 
+
+## 📝Notes and code
+
+Each chapter of Machine Learning is stored in a folder whose name starts with a number. In these folders:
 
 - Notes are available as markdwom documents.
 - The code folder is used to store the code that implements the learning content.
@@ -15,9 +18,9 @@ Each chapter of Machine Learning is stored in a folder whose name starts with a 
 - 笔记以markdwom文档格式提供。
 - code文件夹用来存储实现学习内容的代码
 
----
 
-Some reference books：
+
+## 📚Some reference books：
 
 一些参考书：
 
@@ -31,7 +34,7 @@ Some reference books：
 
 
 
-## Contents
+## ⭐Contents
 
 - [1 The Machine Learning Landscape](https://www.yuque.com/fighting-0foqq/bvz7v6/rno6ouiigzoegvn6?singleDoc#)
 
