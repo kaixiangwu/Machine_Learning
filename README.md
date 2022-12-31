@@ -22,7 +22,7 @@ Here are some notes and code from the process of learning machine learning. You 
 
 - [Machine Learning | Andrew Ng](https://www.youtube.com/watch?v=PPLop4L2eGk&list=PLLssT5z_DsK-h9vYZkQkYNWcItqhlRJLN)
 
-## ⭐Contents
+## ⭐Links to Notes
 
 - [1 The Machine Learning Landscape](https://teal-produce-f34.notion.site/1-The-Machine-Learning-Landscape-8b8b1ee4448446e495f7313bffedb0e6)
 
