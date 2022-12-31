@@ -3,7 +3,7 @@ Here are some notes and codes in the process of learning machine learning. You c
 
 这里是一些学习机器学习过程中的笔记和代码。你可以通过点击下面笔记目录中的链接在线阅读这些笔记，也可以从GitHub仓库中下载markdown格式的笔记。
 
-
+---
 
 Each chapter of Machine Learning is stored in a folder whose name starts with a number. In these folders: 
 
@@ -13,10 +13,9 @@ Each chapter of Machine Learning is stored in a folder whose name starts with a 
 机器学习的每一章都存储在一个文件夹中，其名称以数字开头。在这些文件夹中：
 
 - 笔记以markdwom文档格式提供。
-
 - code文件夹用来存储实现学习内容的代码
 
-  
+---
 
 Some reference books：
 
