@@ -10,9 +10,9 @@ Here are some notes and code from the process of learning machine learning. You 
 
 | Author                                              | Book Name                                                    |
 | :-------------------------------------------------- | ------------------------------------------------------------ |
-| Mehryar Mohri, Afshin Rostamizadeh, Ameet Talwalkar | [Foundations of Machine Learning (2nd Edition)](Books/Foundations of Machine Learning (second edition).pdf) |
-| Shai Shalev-Shwartz and Shai Ben-David              | [Understanding Machine Learning From Theory to Algorithms](Books/Understanding Machine Learning From Theory to Algorithms.pdf) |
-| Aurélien Géron                                      | [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems (2nd Edition)](Books/Hands-On Machine Learning with Scikit-Learn and TensorFlow) |
+| Mehryar Mohri, Afshin Rostamizadeh, Ameet Talwalkar | [Foundations of Machine Learning (2nd Edition)](Books/Foundations%20of%20Machine%20Learning%20(second%20edition).pdf) |
+| Shai Shalev-Shwartz and Shai Ben-David              | [Understanding Machine Learning From Theory to Algorithms](Books/Understanding%20Machine%20Learning%20From%20Theory%20to%20Algorithms.pdf) |
+| Aurélien Géron                                      | [Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow: Concepts, Tools, and Techniques to Build Intelligent Systems (2nd Edition)](Books/Hands-On%20Machine%20Learning%20with%20Scikit-Learn%20and%20TensorFlow) |
 | 周志华                                              | [机器学习](Books/机器学习,周志华.pdf)                        |
 | 李航                                                | [统计学习方法](Books/统计学习方法,李航.pdf)                  |
 
@@ -62,6 +62,6 @@ Here are some notes and code from the process of learning machine learning. You 
     
 - [7 Decision Tree](https://teal-produce-f34.notion.site/7-Decision-Tree-c953b7cbd3d74b4a8943df96b203cac3)
 
-    Decision Tree Model | Decision Trees and Conditional Probability Distributions | Feature Selection | Information Gain | ID3 Algorithm | C4.5 Algorithm | Pruning of Decision Trees | CART Algorithm
+    Decision Tree Model | Decision Trees and Conditional Probability Distributions | Feature Selection | Information Gain | ID3 Algorithm | C4.5 Algorithm | Pruning of Decision Trees | CART Algorithm | Missing Values Processing
 
-    决策树模型 | 决策树与条件概率分布 | 特征选择 | 信息增益 | ID3算法 | C4.5算法 | 决策树的剪枝 | CART算法
+    决策树模型 | 决策树与条件概率分布 | 特征选择 | 信息增益 | ID3算法 | C4.5算法 | 决策树的剪枝 | CART算法 | 缺失值处理
