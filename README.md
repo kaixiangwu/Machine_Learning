@@ -65,3 +65,15 @@ Here are some notes and code from the process of learning machine learning. You 
     Decision Tree Model | Decision Trees and Conditional Probability Distributions | Feature Selection | Information Gain | ID3 Algorithm | C4.5 Algorithm | Pruning of Decision Trees | CART Algorithm | Missing Values Processing
 
     决策树模型 | 决策树与条件概率分布 | 特征选择 | 信息增益 | ID3算法 | C4.5算法 | 决策树的剪枝 | CART算法 | 缺失值处理
+
+- [8 Random Forest](https://teal-produce-f34.notion.site/8-Random-Forest-29709a9cad9b495483052aefb40a4ad7)
+
+    Bagging | Random Forest
+
+    装袋算法 | 随机森林
+
+- [9 Bossting](https://teal-produce-f34.notion.site/9-Boosting-e4b9b65b967645df808a16112855e398)
+
+    Ensemble Learning | Parallel Ensemble vs.Sequential Ensemble | Weak Learner | Boosting |Adaptive Boosting (AdaBoost) | Coordinate Descent |Gradient Boosting
+
+    集成学习 | 并行集成vs.串行集成 | 弱学习 | 提升方法 | AdaBoost |  坐标下降 | 梯度增强
