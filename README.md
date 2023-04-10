@@ -77,3 +77,7 @@ Here are some notes and code from the process of learning machine learning. You 
     Ensemble Learning | Parallel Ensemble vs.Sequential Ensemble | Weak Learner | Boosting |Adaptive Boosting (AdaBoost) | Coordinate Descent |Gradient Boosting
 
     集成学习 | 并行集成vs.串行集成 | 弱学习 | 提升方法 | AdaBoost |  坐标下降 | 梯度增强
+
+- [Kmeans](https://www.notion.so/10-K-means-d7a7fef619f54a36a914b95b9ae29ab4?pvs=4)
+
+    Kmeans | Kmeans++
